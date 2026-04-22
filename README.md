@@ -139,7 +139,7 @@ This updated run reflects the revised label-collapsing logic in `Baseline.ipynb`
 - GPU required: no
 - Saved notebook outputs include model metrics, but wall-clock runtime was not explicitly logged in the notebook for this iteration
 
-Because runtime was not recorded in the notebook itself, this iteration should be treated as a local low-cost baseline run rather than a timed benchmark.
+The runtime for the whole notebook is around 12 minutes (mostly in the form of loading certain tracking data) and the training itself only took around 12 seconds.
 
 ### Budget Summary
 
