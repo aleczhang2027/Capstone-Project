@@ -78,7 +78,8 @@ The current baseline compresses raw `pff_passCoverage` labels into broader famil
 
 - all `Cover 2` variants map to `Cover 2`
 - all `Cover 3` variants map to `Cover 3`
-- `Cover 4`, `Cover 6`, and `Quarters` variants map to `Quarters/C4`
+- `Cover 4` and `Quarters` variants map to `Quarters/C4`
+- `Cover 6` variants map to `Cover 6`
 - `Red Zone`, `Goal Line`, and `Miscellaneous` map to `Exotic/GoalLine`
 
 This collapse is applied before the train/test split and is also the label shown in the final output reports.
@@ -110,7 +111,7 @@ Saved notebook metrics:
 
 | Target | Classes | Accuracy | Macro F1 | Weighted F1 |
 |---|---:|---:|---:|---:|
-| `pff_passCoverage_collapsed` | 8 | 0.340866 | 0.295933 | 0.352582 |
+| `pff_passCoverage_collapsed` | 9 | 0.31 | 0.28 | 0.32 |
 | `pff_manZone` | 3 | 0.608600 | 0.525982 | 0.631265 |
 
 Updated saved classification report for `pff_passCoverage_collapsed`:
@@ -118,15 +119,16 @@ Updated saved classification report for `pff_passCoverage_collapsed`:
 | Class | Precision | Recall | F1-score | Support |
 |---|---:|---:|---:|---:|
 | `Bracket` | 0.04 | 0.47 | 0.07 | 15 |
-| `Cover 0` | 0.16 | 0.43 | 0.23 | 115 |
-| `Cover 1` | 0.34 | 0.24 | 0.28 | 685 |
-| `Cover 2` | 0.30 | 0.43 | 0.35 | 440 |
-| `Cover 3` | 0.54 | 0.32 | 0.40 | 1133 |
-| `Exotic/GoalLine` | 0.37 | 0.72 | 0.49 | 132 |
-| `Prevent` | 0.12 | 0.64 | 0.20 | 14 |
-| `Quarters/C4` | 0.38 | 0.32 | 0.34 | 652 |
+| `Cover 0` | 0.16 | 0.42 | 0.24 | 115 |
+| `Cover 1` | 0.35 | 0.22 | 0.27 | 685 |
+| `Cover 2` | 0.31 | 0.39 | 0.34 | 440 |
+| `Cover 3` | 0.56 | 0.26 | 0.35 | 1133 |
+| `Cover 6` | 0.21 | 0.40 | 0.27 | 250 |
+| `Exotic/GoalLine` | 0.39 | 0.71 | 0.50 | 132 |
+| `Prevent` | 0.11 | 0.64 | 0.19 | 14 |
+| `Quarters/C4` | 0.27 | 0.26 | 0.26 | 402 |
 
-This updated run reflects the revised label-collapsing logic in `Baseline.ipynb`, which reduces the coverage target from many punctuation and naming variants down to 8 broader classes for evaluation.
+This updated run reflects the revised label-collapsing logic in `Baseline.ipynb`, which reduces the coverage target from many punctuation and naming variants down to 9 broader classes for evaluation, with `Cover 6` kept separate from `Quarters/C4`.
 
 ## Runtime and Budget
 
