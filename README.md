@@ -5,7 +5,7 @@ This repo contains our NFL coverage-classification baseline built from the enhan
 ## Repository Contents
 
 - `Baseline.ipynb`: baseline modeling notebook for predicting collapsed pass coverage and `pff_manZone`.
-- `data_processing.ipynb`: data preparation notebook.
+- `data_processing.ipynb`: preprocessing notebook that builds the enhanced weekly tracking files used by the baseline model.
 - `Data/`: local data directory with `games.csv`, `plays.csv`, `players.csv`, `player_play.csv`, and `week*_tracking_enhanced.csv`.
 - `pyproject.toml`: Poetry environment definition.
 
@@ -48,6 +48,20 @@ The baseline notebook expects the following files to already exist in `Data/`:
 - `week1_tracking_enhanced.csv` through `week9_tracking_enhanced.csv`
 
 The baseline experiment uses the nine `week*_tracking_enhanced.csv` files and filters to the final `BEFORE_SNAP` frame for each play.
+
+## Preprocessing Workflow
+
+`data_processing.ipynb` is the notebook used to create the enhanced weekly tracking files that feed the baseline experiment.
+
+In that notebook, the workflow:
+
+- loads raw weekly tracking data plus `games.csv`, `plays.csv`, `players.csv`, and `player_play.csv`
+- creates a `sideofball` feature from player position metadata
+- merges player-level information into tracking rows
+- merges pre-snap play context such as down, distance, yard line, scores, win probability, formation, `pff_passCoverage`, and `pff_manZone`
+- exports enhanced files such as `week1_tracking_enhanced.csv` through `week9_tracking_enhanced.csv`
+
+Those enhanced files are then consumed by `Baseline.ipynb`.
 
 ## Baseline Experiment
 
