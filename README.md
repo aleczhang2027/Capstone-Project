@@ -137,9 +137,12 @@ This updated run reflects the revised label-collapsing logic in `Baseline.ipynb`
 - Compute environment: local laptop / local Python environment
 - Hardware budget: CPU-only baseline, no cloud training budget used
 - GPU required: no
-- Saved notebook outputs include model metrics, but wall-clock runtime was not explicitly logged in the notebook for this iteration
+- Measured in `Baseline.ipynb` using `time.perf_counter()`
+- `pff_manZone`: `4.335892` seconds total (`4.325504` fit, `0.010388` predict)
+- `pff_passCoverage_collapsed`: `7.422823` seconds total (`7.410392` fit, `0.012431` predict)
+- Combined baseline evaluation loop runtime: about `11.76` seconds
 
-The runtime for the whole notebook is around 12 minutes (mostly in the form of loading certain tracking data) and the training itself only took around 12 seconds.
+These timings should be treated as local baseline measurements on a CPU-only setup, so they are useful for relative comparison but may vary across machines.
 
 ### Budget Summary
 
