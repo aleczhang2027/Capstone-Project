@@ -150,6 +150,30 @@ These timings should be treated as local baseline measurements on a CPU-only set
 - External API cost: `$0`
 - Training budget class: low-cost baseline
 
+## Autoresearch Experiment Log
+
+The autoresearch loop ran 14 automated experiments against the `pff_passCoverage_collapsed` target using macro F1 as the primary metric. The five experiments that produced improvements, in the order they ran:
+
+### 1. HistGradientBoosting with ordinal-encoded categoricals
+- **Macro F1:** 0.3829 (baseline was 0.2786 — **+37%**)
+- Replaced LogisticRegression with `HistGradientBoostingClassifier`. Categorical features were ordinal-encoded and passed as native categorical splits; numeric features were passed through as-is (HGB handles NaN natively). The biggest single gain of the entire run.
+
+### 2. HGB hyperparameter tuning
+- **Macro F1:** 0.3985 (+4% over prior best)
+- Tuned the HGB: `max_iter=500`, `learning_rate=0.05`, `max_depth=8`, `min_samples_leaf=10`, `l2_regularization=0.1`. More iterations at a moderate learning rate meaningfully improved over the default HGB settings.
+
+### 3. VotingClassifier: soft vote HGB + RandomForest
+- **Macro F1:** 0.4187 (+4.8% over prior best)
+- Combined the tuned HGB with a `RandomForestClassifier` (200 trees, `balanced` class weight) using soft voting. The two models make different types of errors, so combining their probability outputs was better than either alone.
+
+### 4. Extended feature engineering
+- **Macro F1:** 0.4219 (+0.5% over prior best)
+- Added nine engineered features on top of the VotingClassifier: `score_diff`, `wp_diff`, `is_redzone`, `down_x_yards`, `is_long_yardage`, `is_short_yardage`, `two_min_warning`, `field_zone`, and `score_sign`. Game-state context that is implicit in the raw columns became explicit and immediately usable.
+
+### 5. QuantileTransformer on RF numeric branch *(best overall)*
+- **Macro F1:** 0.4264 (+0.4% over prior best)
+- Applied `QuantileTransformer(output_distribution="normal")` to the RandomForest's numeric inputs instead of `StandardScaler`. Skewed tracking features like speed and acceleration are better normalized by a quantile mapping. Final best: **macro F1 = 0.4264**, a **+53% improvement** over the LogisticRegression baseline.
+
 ## Notes
 
 - If the notebook kernel throws an import error such as `RuntimeError: CPU dispatcher tracer already initlized`, restart the kernel fully and rerun the notebook from the top.
