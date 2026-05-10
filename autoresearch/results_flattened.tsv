@@ -1,0 +1,14 @@
+experiment	val_acc	val_macro_f1	val_weighted_f1	status	description
+581826d	0.380825	0.339132	0.387203	baseline	HGB baseline on flattened 40-frame tracking
+581826d	0.413007	0.360828	0.419268	baseline	HGB position-ordered flattened 40-frame tracking
+581826d	0.414683	0.370297	0.421589	baseline	HGB position-ordered + posgroup features
+581826d	0.414683	0.370297	0.421589	keep	HGB max_iter=300
+581826d	0.423399	0.385622	0.432228	keep	HGB max_depth=8
+6645cc0	0.418371	0.375228	0.426989	keep	HGB lr=0.03 iter=350 depth=8
+6645cc0	0.425746	0.372902	0.430004	keep	VotingClassifier soft HGB+RF on flattened tracking
+6645cc0	0.424070	0.378427	0.432341	keep	HGB min_samples_leaf=4 depth=8
+6645cc0	0.428093	0.392921	0.435173	keep	HGB l2=0.05 depth=8
+599c748	0.428093	0.392921	0.435173	keep	HGB iter=250 l2=0.05 depth=8
+599c748	0.420717	0.374668	0.427377	keep	HGB depth=9 l2=0.05
+599c748	0.420382	0.384826	0.427177	keep	HGB depth=8 l2=0.05 QuantileTransformer on tracking cols
+599c748	0.450553	0.381410	0.451414	keep	HGB max_leaf_nodes=63 l2=0.05

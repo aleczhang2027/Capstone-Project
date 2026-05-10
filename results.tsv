@@ -1,0 +1,16 @@
+experiment	val_acc	val_macro_f1	val_weighted_f1	status	description
+no-git	0.306968	0.278606	0.316121	baseline	baseline logistic regression
+no-git	0.370370	0.382899	0.376658	keep	HistGradientBoosting with ordinal-encoded categoricals
+no-git	0.380414	0.398459	0.388204	keep	HistGradientBoosting tuned: 500 iters lr=0.05 depth=8 l2=0.1
+no-git	0.389203	0.399432	0.396011	keep	HGB early-stopping lr=0.03 max_leaf=63 msl=8
+no-git	0.438481	0.396166	0.411967	keep	RandomForest 300 trees balanced
+no-git	0.411802	0.418650	0.417029	keep	VotingClassifier soft HGB+RF
+no-git	0.333333	0.307755	0.345084	keep	StackingClassifier HGB+RF meta=LR cv=3
+no-git	0.406780	0.414849	0.412221	keep	VotingClassifier weighted HGB*2+RF balanced_subsample
+no-git	0.411174	0.412904	0.416144	keep	VotingClassifier HGB+RF+ExtraTrees 3-way soft
+no-git	0.419962	0.410151	0.423008	keep	VotingClassifier HGB-early-stop+RF equal-weight
+no-git	0.411174	0.419978	0.416360	keep	VotingClassifier HGB+RF with score_diff is_redzone down_x_yards wp_diff features
+no-git	0.410546	0.421908	0.415112	keep	VotingClassifier HGB+RF extended feature engineering
+no-git	0.429692	0.417101	0.429077	keep	VotingClassifier HGB-750-lr0.04 + RF-400-msl2 with extended features
+no-git	0.416510	0.426375	0.421250	keep	VotingClassifier HGB+RF QuantileTransformer on RF branch
+no-git	0.405838	0.404938	0.409198	keep	VotingClassifier HGB-750-lr0.03-depth9 + RF-QT extended features
