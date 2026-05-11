@@ -12,3 +12,25 @@ experiment	val_acc	val_macro_f1	val_weighted_f1	status	description
 599c748	0.420717	0.374668	0.427377	keep	HGB depth=9 l2=0.05
 599c748	0.420382	0.384826	0.427177	keep	HGB depth=8 l2=0.05 QuantileTransformer on tracking cols
 599c748	0.450553	0.381410	0.451414	keep	HGB max_leaf_nodes=63 l2=0.05
+599c748	0.417320	0.367123	0.424755	baseline	HGB baseline on flattened 40-frame data
+599c748	0.126765	0.038278	0.048497	keep	two-stage spatio-temporal transformer hidden=64 heads=4 temporal=2 spatial=2 epochs=35 MPS
+599c748	0.385315	0.390710	0.393942	keep	spatial transformer over per-player trajectory summaries last+mean+delta hidden=64 heads=4 layers=3 epochs=60
+599c748	0.339190	0.352943	0.351960	keep	spatial transformer CPU epochs=25 batch=256
+599c748	0.301224	0.316945	0.309278	keep	spatial transformer CPU hidden=32 layers=2 epochs=60 batch=256 shuffle-once
+599c748	0.369627	0.357775	0.377756	discard	MLP 3-layer hidden=256 over 198-dim summary features epochs=150 batch=512
+599c748	0.007217	0.001592	0.000103	discard	single attention layer hidden=64 heads=4 epochs=100 batch=512 residual+norm
+599c748	0.278318	0.304405	0.276009	discard	spatial transformer hidden=64 3L OneCycleLR max_lr=3e-3 20epochs pct_start=0.3
+599c748	0.050518	0.117789	0.045382	discard	spatial transformer hidden=64 3L 55ep label_smoothing=0.1 cosine lr=1e-3
+599c748	0.386257	0.388658	0.398460	discard	spatial transformer hidden=64 3L 55ep cosine lr=1e-3 exact-repro-of-0.390
+599c748	0.270160	0.309906	0.259026	discard	temporal CNN (3→16→32) + spatial transformer 2L hidden=64 warmup=5 epochs=40
+599c748	0.402573	0.401965	0.413201	keep	summary spatial transformer MPS fix enable_nested_tensor=False hidden=64 3L 60ep seed=42
+8d83e3d	0.273298	0.316751	0.270211	discard	spatial transformer MPS hidden=96 heads=4 layers=4 epochs=60 wider+deeper
+8d83e3d	0.428302	0.410127	0.440192	keep	spatial transformer MPS hidden=64 3L 100ep more-epochs cosine
+63c1834	0.436461	0.416466	0.450088	keep	spatial transformer MPS hidden=64 3L 150ep cosine
+63ca41d	0.430813	0.401923	0.445363	discard	spatial transformer MPS hidden=64 3L 200ep cosine
+63ca41d	0.422655	0.403586	0.433658	discard	spatial transformer MPS 12-feat summaries +std hidden=64 3L 150ep
+63ca41d	0.350800	0.341765	0.360648	discard	spatial transformer + context side channel (down/dist/score/WP/formation) hidden=64 3L 150ep MPS
+63ca41d	0.149357	0.090163	0.057820	discard	factored attention spatial-per-frame + temporal-across-frames hidden=48 heads=4 s1+t2 epochs=100 full-40frames MPS
+63ca41d	0.444933	0.411442	0.456930	discard	spatial transformer MPS hidden=64 3L 150ep dropout=0.10
+63ca41d	0.453404	0.428568	0.465356	keep	spatial transformer MPS hidden=64 3L 150ep WarmRestarts T0=50 3cycles
+664b261	0.448698	0.429857	0.461268	keep	spatial transformer MPS hidden=64 3L 150ep WarmRestarts T0=75 2cycles
