@@ -174,6 +174,28 @@ The autoresearch loop ran 14 automated experiments against the `pff_passCoverage
 - **Macro F1:** 0.4264 (+0.4% over prior best)
 - Applied `QuantileTransformer(output_distribution="normal")` to the RandomForest's numeric inputs instead of `StandardScaler`. Skewed tracking features like speed and acceleration are better normalized by a quantile mapping. Final best: **macro F1 = 0.4264**, a **+53% improvement** over the LogisticRegression baseline.
 
+## Flattened Pipeline Autoresearch Results
+
+A second autoresearch loop ran against the **flattened 40-frame tracking pipeline** — one row per play with full pre-snap trajectory data (11 offense + 11 defense players × 40 frames × x/y/speed). The model is a spatial transformer operating on per-player trajectory summaries (last position, mean position, net displacement). Primary metric: macro F1 on `pff_passCoverage_collapsed` (9-class).
+
+HGB baseline on this pipeline: **macro F1 = 0.367**
+
+The five experiments that produced strict improvements, in order:
+
+| # | Description | Macro F1 | Training Time |
+|---|---|---:|---:|
+| 1 | Spatial transformer, MPS fix (`enable_nested_tensor=False`), 60 epochs | 0.4020 | 79s |
+| 2 | Same architecture, 100 epochs | 0.4101 | 125s |
+| 3 | Same architecture, 150 epochs | 0.4165 | 193s |
+| 4 | 150 epochs + `CosineAnnealingWarmRestarts` (T₀=50, 3 cycles) | 0.4286 | 193s |
+| 5 | 150 epochs + `CosineAnnealingWarmRestarts` (T₀=75, 2 cycles) *(best)* | **0.4299** | 193s |
+
+Best result: **macro F1 = 0.4299**, a **+17% improvement** over the flattened HGB baseline (0.367), running within the 300-second budget on MPS.
+
+Key finding: the MPS fix (`enable_nested_tensor=False` on `nn.TransformerEncoder`) was the enabling unlock — prior to this, PyTorch 2.11 silently failed to move transformer weights to Metal, forcing CPU-only training at ~320s per run. With MPS, the same run takes ~80s, making iterative experimentation practical.
+
+See `experiment_result_matrix.png` for a bar chart of all 11 experiments run (kept and discarded).
+
 ## Notes
 
 - If the notebook kernel throws an import error such as `RuntimeError: CPU dispatcher tracer already initlized`, restart the kernel fully and rerun the notebook from the top.
